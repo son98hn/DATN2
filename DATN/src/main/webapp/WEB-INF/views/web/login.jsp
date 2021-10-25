@@ -91,7 +91,7 @@
 							<button type="submit" class="btn btn-primary">Đăng nhập</button>
 
 						</form>
-						<a href="/auth/facebook">Face Book</a>
+						<a href="/oauth2/authorization/facebook">Login with Facebook</a>						
 						<br>
 						<a href="/forgotPassword" style="float: right;">Quên mật khẩu?</a>
 						<br>

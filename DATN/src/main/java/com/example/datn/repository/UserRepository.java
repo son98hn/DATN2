@@ -29,4 +29,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     List<UserEntity> findByNew(Long newId);
 
     UserEntity findByResetPasswordToken(String token);
+
+    @Query(value = "update users u set u.type=?2 where u.username=?1", nativeQuery = true)
+    void updateAuthenticationType(String username, String type);
 }

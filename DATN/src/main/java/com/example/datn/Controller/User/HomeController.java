@@ -1,6 +1,5 @@
 package com.example.datn.Controller.User;
 
-import com.example.datn.Utils.Utility;
 import com.example.datn.dto.UserDTO;
 import com.example.datn.entity.*;
 import com.example.datn.repository.GroupRepository;
@@ -10,30 +9,17 @@ import com.example.datn.service.ICommentService;
 import com.example.datn.service.INewService;
 import com.example.datn.service.impl.FunctionService;
 import com.example.datn.service.impl.UserService;
-import com.example.datn.validate.UserValidator;
-import net.bytebuddy.utility.RandomString;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.mail.javamail.JavaMailSender;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,13 +35,7 @@ public class HomeController {
 
     private final UserService userService;
 
-    private final ConnectionFactoryLocator connectionFactoryLocator;
-
-    private final UsersConnectionRepository usersConnectionRepository;
-
     private final GroupRepository groupRepository;
-
-    private final UserValidator userValidator;
 
     private final ICommentService commentService;
 
@@ -63,25 +43,11 @@ public class HomeController {
 
     private final JavaMailSender mailSender;
 
-    @InitBinder
-    protected void initBinder(WebDataBinder webDataBinder) {
-        Object target = webDataBinder.getTarget();
-        if (target == null) {
-            return;
-        }
-        if (target.getClass() == UserDTO.class) {
-            webDataBinder.setValidator(userValidator);
-        }
-    }
-
-    public HomeController(ICategoryService categoryService, ICategoryParentService categoryParentService, INewService newService, UserService userService, ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository, UserValidator userValidator, GroupRepository groupRepository, ICommentService commentService, FunctionService functionService, JavaMailSender mailSender) {
+    public HomeController(ICategoryService categoryService, ICategoryParentService categoryParentService, INewService newService, UserService userService, GroupRepository groupRepository, ICommentService commentService, FunctionService functionService, JavaMailSender mailSender) {
         this.categoryService = categoryService;
         this.categoryParentService = categoryParentService;
         this.newService = newService;
         this.userService = userService;
-        this.connectionFactoryLocator = connectionFactoryLocator;
-        this.usersConnectionRepository = usersConnectionRepository;
-        this.userValidator = userValidator;
         this.groupRepository = groupRepository;
         this.commentService = commentService;
         this.functionService = functionService;
@@ -217,22 +183,6 @@ public class HomeController {
             model.addAttribute("alert", "danger");
         }
         return "web/login";
-    }
-
-    @GetMapping(value = "/register")
-    public String signupPage(WebRequest webRequest, Model model) {
-        ProviderSignInUtils providerSignInUtils = new ProviderSignInUtils(connectionFactoryLocator, usersConnectionRepository);
-        // Retrieve social networking information.
-        Connection<?> connection = providerSignInUtils.getConnectionFromSession(webRequest);
-        UserDTO userDTO = null;
-        if (connection != null) {
-            userDTO = new UserDTO(connection);
-        } else {
-            userDTO = new UserDTO();
-        }
-        model.addAttribute("userDTO", userDTO);
-        model.addAttribute("categoryParent", categoryParentService.findAll());
-        return "web/register";
     }
 
     @GetMapping(value = "/userNew/{id}")

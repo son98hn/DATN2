@@ -24,7 +24,7 @@ public interface IUserService {
 
     List<UserEntity> findUser(Pageable pageable);
 
-    UserEntity createSocialUser(Connection<?> connection);
+//    UserEntity createSocialUser(Connection<?> connection);
 
     UserEntity findByEmail(String email);
 
@@ -39,4 +39,6 @@ public interface IUserService {
     UserEntity getResetPasswordToken(String token);
 
     void updateResetPasswordToken(String token, String email);
+
+    void processOAuthPostLogin(String username, String email);
 }

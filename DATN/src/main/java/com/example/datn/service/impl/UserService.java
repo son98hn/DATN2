@@ -50,6 +50,7 @@ public class UserService implements IUserService {
                 userEntity.setEmail(userDTO.getEmail());
                 userEntity.setPhone(userDTO.getPhone());
                 userEntity.setName(userDTO.getName());
+                userEntity.setType("public");
                 userRepository.save(userEntity);
                 for (int i = 0; i < userDTO.getGroupName().size(); i++) {
                     UserGroupEntity userGroupEntity = new UserGroupEntity();
@@ -71,6 +72,7 @@ public class UserService implements IUserService {
                 oldUser.setPhone(userDTO.getPhone());
                 oldUser.setName(userDTO.getName());
                 oldUser.setAvatar(userDTO.getAvatar());
+                oldUser.setType("public");
                 userRepository.save(oldUser);
                 for (int i = 0; i < userDTO.getGroupName().size(); i++) {
                     UserGroupEntity userGroupEntity = new UserGroupEntity();
@@ -143,32 +145,32 @@ public class UserService implements IUserService {
     }
 
 
-    @Override
-    public UserEntity createSocialUser(Connection<?> connection) {
-        ConnectionKey connectionKey = connection.getKey();
-        UserProfile userProfile = connection.fetchUserProfile();
-        String email = userProfile.getEmail();
-        UserEntity userEntity = userRepository.findByEmail(email);
-        if (userEntity == null) {
-            return userEntity;
-        }
-        String username_prefix = userProfile.getFirstName().trim().toLowerCase() + "_" + userProfile.getLastName().trim().toLowerCase();
-        String username = userRepository.findByUsername(username_prefix).getUsername();
-        String randomPassword = UUID.randomUUID().toString().substring(0, 5);
-        String bCryptPassword = bCryptPasswordEncoder.encode(randomPassword);
-        UserEntity user = new UserEntity();
-        user.setPassword(bCryptPassword);
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setName(userProfile.getLastName());
-        entityManager.persist(user);
-        UserGroupEntity userGroupEntity = new UserGroupEntity();
-        GroupEntity groupEntity = groupRepository.findByName("user");
-        userGroupEntity.setGroupEntity(groupEntity);
-        userGroupEntity.setUserEntity(user);
-        userGroupRepository.save(userGroupEntity);
-        return user;
-    }
+//    @Override
+//    public UserEntity createSocialUser(Connection<?> connection) {
+//        ConnectionKey connectionKey = connection.getKey();
+//        UserProfile userProfile = connection.fetchUserProfile();
+//        String email = userProfile.getEmail();
+//        UserEntity userEntity = userRepository.findByEmail(email);
+//        if (userEntity == null) {
+//            return userEntity;
+//        }
+//        String username_prefix = userProfile.getFirstName().trim().toLowerCase() + "_" + userProfile.getLastName().trim().toLowerCase();
+//        String username = userRepository.findByUsername(username_prefix).getUsername();
+//        String randomPassword = UUID.randomUUID().toString().substring(0, 5);
+//        String bCryptPassword = bCryptPasswordEncoder.encode(randomPassword);
+//        UserEntity user = new UserEntity();
+//        user.setPassword(bCryptPassword);
+//        user.setUsername(username);
+//        user.setEmail(email);
+//        user.setName(userProfile.getLastName());
+//        entityManager.persist(user);
+//        UserGroupEntity userGroupEntity = new UserGroupEntity();
+//        GroupEntity groupEntity = groupRepository.findByName("user");
+//        userGroupEntity.setGroupEntity(groupEntity);
+//        userGroupEntity.setUserEntity(user);
+//        userGroupRepository.save(userGroupEntity);
+//        return user;
+//    }
 
     @Override
     public UserEntity findByEmail(String email) {
@@ -202,16 +204,16 @@ public class UserService implements IUserService {
     @Override
     public void updateProfile(UserDTO userDTO) {
         UserEntity oldUser = userRepository.findById(userDTO.getId()).get();
-        if (!verifyUpdateUser(oldUser, userDTO) && verifyEmail(userDTO.getEmail()) && verifyPhone(userDTO.getPhone())) {
-            userDTO.setMessage("Số điện thoại hoặc Email đã tồn tại!");
-        } else {
-            oldUser.setEmail(userDTO.getEmail());
-            oldUser.setPhone(userDTO.getPhone());
-            oldUser.setName(userDTO.getName());
-            oldUser.setAvatar(userDTO.getAvatar());
-            userRepository.save(oldUser);
-            userDTO.setMessage("Cập nhật tài khoản thành công!");
-        }
+            if (!verifyUpdateUser(oldUser, userDTO) && verifyEmail(userDTO.getEmail()) && verifyPhone(userDTO.getPhone())                                                                                                   ) {
+                userDTO.setMessage("Số điện thoại hoặc Email đã tồn tại!");
+            } else {
+                oldUser.setEmail(userDTO.getEmail());
+                oldUser.setPhone(userDTO.getPhone());
+                oldUser.setName(userDTO.getName());
+                oldUser.setAvatar(userDTO.getAvatar());
+                userRepository.save(oldUser);
+                userDTO.setMessage("Cập nhật tài khoản thành công!");
+            }
     }
 
     @Override
@@ -239,6 +241,20 @@ public class UserService implements IUserService {
         if(userEntity!=null) {
             userEntity.setResetPasswordToken(token);
             userRepository.save(userEntity);
+        }
+    }
+
+    @Override
+    public void processOAuthPostLogin(String username, String email) {
+        UserEntity userEntity = userRepository.findByUsername(username);
+        if(userEntity==null) {
+            UserEntity newUser = new UserEntity();
+            newUser.setUsername(username);
+            newUser.setName(username);
+            newUser.setEmail("FB_"+email);
+            newUser.setPassword(bCryptPasswordEncoder.encode(DefaultPassword));
+            newUser.setType("fb");
+            userRepository.save(newUser);
         }
     }
 }

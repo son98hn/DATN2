@@ -2,7 +2,6 @@ package com.example.datn.Controller.User.API;
 
 import com.example.datn.dto.UserDTO;
 import com.example.datn.service.impl.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

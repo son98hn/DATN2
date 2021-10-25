@@ -31,6 +31,9 @@ public class UserEntity extends BaseEntity {
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
 
+    @Column(name = "type")
+    private String type;
+
     @OneToMany(mappedBy = "userEntity")
     private List<UserGroupEntity> userGroupEntityList = new ArrayList<>();
 
@@ -88,6 +91,14 @@ public class UserEntity extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getResetPasswordToken() {
