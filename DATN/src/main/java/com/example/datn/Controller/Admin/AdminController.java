@@ -26,7 +26,8 @@ public class AdminController {
     private final IUserService userService;
     private final IGroupService groupService;
 
-    public AdminController(INewService newService, ICategoryService categoryService, IFunctionService functionService, IUserService userService, IGroupService groupService) {
+    public AdminController(INewService newService, ICategoryService categoryService, IFunctionService functionService, IUserService userService,
+                           IGroupService groupService) {
         this.newService = newService;
         this.categoryService = categoryService;
         this.functionService = functionService;
@@ -72,8 +73,8 @@ public class AdminController {
         Pageable pageable = PageRequest.of(page - 1, size, sortable);
         if (search != null && !search.equals("")) {
             List<NewEntity> newEntities = newService.search(search, pageable);
-            model.addAttribute("totalPage",(int) Math.ceil((double) newService.countSearch(search)/size));
-            model.addAttribute("listNew",newEntities);
+            model.addAttribute("totalPage", (int) Math.ceil((double) newService.countSearch(search) / size));
+            model.addAttribute("listNew", newEntities);
             List<String> listcategory_str = new ArrayList<>();
             for (NewEntity entity : newEntities) {
                 Long id = entity.getCategoryEntity().getId();
@@ -81,11 +82,11 @@ public class AdminController {
                 listcategory_str.add(categoryDTO.getName());
             }
             model.addAttribute("listCategoryNew", listcategory_str);
-        } else if(category!= null && !category.equals("")) {
+        } else if (category != null && !category.equals("")) {
             CategoryEntity categoryEntity = categoryService.findByCode(category);
             List<NewEntity> newEntities = newService.findByCategoryEntityIdPage(categoryEntity.getId(), pageable);
             model.addAttribute("listNew", newEntities);
-            model.addAttribute("totalPage", (int) Math.ceil((double) newService.totalItemByCategory(categoryEntity.getId())/size));
+            model.addAttribute("totalPage", (int) Math.ceil((double) newService.totalItemByCategory(categoryEntity.getId()) / size));
             List<String> listcategory_str = new ArrayList<>();
             for (NewEntity entity : newEntities) {
                 Long id = entity.getCategoryEntity().getId();

@@ -144,34 +144,6 @@ public class UserService implements IUserService {
         return userRepository.findUser(pageable);
     }
 
-
-//    @Override
-//    public UserEntity createSocialUser(Connection<?> connection) {
-//        ConnectionKey connectionKey = connection.getKey();
-//        UserProfile userProfile = connection.fetchUserProfile();
-//        String email = userProfile.getEmail();
-//        UserEntity userEntity = userRepository.findByEmail(email);
-//        if (userEntity == null) {
-//            return userEntity;
-//        }
-//        String username_prefix = userProfile.getFirstName().trim().toLowerCase() + "_" + userProfile.getLastName().trim().toLowerCase();
-//        String username = userRepository.findByUsername(username_prefix).getUsername();
-//        String randomPassword = UUID.randomUUID().toString().substring(0, 5);
-//        String bCryptPassword = bCryptPasswordEncoder.encode(randomPassword);
-//        UserEntity user = new UserEntity();
-//        user.setPassword(bCryptPassword);
-//        user.setUsername(username);
-//        user.setEmail(email);
-//        user.setName(userProfile.getLastName());
-//        entityManager.persist(user);
-//        UserGroupEntity userGroupEntity = new UserGroupEntity();
-//        GroupEntity groupEntity = groupRepository.findByName("user");
-//        userGroupEntity.setGroupEntity(groupEntity);
-//        userGroupEntity.setUserEntity(user);
-//        userGroupRepository.save(userGroupEntity);
-//        return user;
-//    }
-
     @Override
     public UserEntity findByEmail(String email) {
         return userRepository.findByEmail(email);

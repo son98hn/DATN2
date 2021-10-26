@@ -159,24 +159,30 @@
                                                             </ul>
                                                         </div> -->
                                                         <div class="dropdown">
-                                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Lọc theo thể loại bài viết
-                                                            <span class="caret"></span></button>
-                                                            
-                                                            <ul class="dropdown-menu" style="height: 300px; overflow: auto;">
+                                                            <button class="btn btn-primary dropdown-toggle"
+                                                                type="button" data-toggle="dropdown">Lọc theo thể loại
+                                                                bài viết
+                                                                <span class="caret"></span></button>
+
+                                                            <ul class="dropdown-menu"
+                                                                style="height: 300px; overflow: auto;">
                                                                 <c:forEach items="${listCategory}" var="category">
                                                                     <li><a
-                                                                        href="/admin-new?category=${category.code}">${category.name}</a>
-                                                                </li>
-                                                              
-                                                            </c:forEach>
-                                                            </ul>
-                                                          </div>
-                                                        <input type="text" placeholder="Tìm kiếm" id="search">
-                                                        <a
-                                                            href="/admin-new?page=1&size=15&sort=desc&category=&search=trường"><i
-                                                                class="fa fa-search" aria-hidden="true"></i>
-                                                        </a>
+                                                                            href="/admin-new?category=${category.code}">${category.name}</a>
+                                                                    </li>
 
+                                                                </c:forEach>
+                                                            </ul>
+                                                        </div>
+                                                        <form action="/admin-new" method="get">
+                                                            <input type="text" placeholder="Tìm kiếm" id="search" name="search">
+                                                            <button type="submit"><i
+                                                                class="fa fa-search" aria-hidden="true"></i></button>
+                                                            <!-- <a
+                                                                href="/admin-new?page=1&size=15&sort=desc&category=&search=trường"><i
+                                                                    class="fa fa-search" aria-hidden="true"></i>
+                                                            </a> -->
+                                                        </form>
                                                         <a flag="info" class="dt-button buttons-colvis btn btn-white btn-primary
 														btn-bold" data-toggle="tooltip" title='Thêm bài viết' href='
 														<c:url value="/admin-addOrUpdateNew" />' <c:if test="${userFunction.contains('add-new') == true}">
@@ -266,7 +272,7 @@
                                                     <input type="hidden" value="" id="size" name="size" />
                                                     <input type="hidden" value="" id="sort" name="sort" />
                                                     <!-- <input type="hidden" value="" id="category" name="category" /> -->
-                                                    <input type="hidden" value="" id="search" name="search" />
+                                                    <!-- <input type="hidden" value="" id="search" name="search" /> -->
                                                 </div>
                                             </div>
                                         </div>
