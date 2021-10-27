@@ -3,6 +3,7 @@ package com.example.datn.Controller.User;
 import com.example.datn.dto.UserDTO;
 import com.example.datn.entity.*;
 import com.example.datn.repository.GroupRepository;
+import com.example.datn.repository.NewRepository;
 import com.example.datn.service.ICategoryParentService;
 import com.example.datn.service.ICategoryService;
 import com.example.datn.service.ICommentService;
@@ -43,7 +44,9 @@ public class HomeController {
 
     private final JavaMailSender mailSender;
 
-    public HomeController(ICategoryService categoryService, ICategoryParentService categoryParentService, INewService newService, UserService userService, GroupRepository groupRepository, ICommentService commentService, FunctionService functionService, JavaMailSender mailSender) {
+    private final NewRepository newRepository;
+
+    public HomeController(ICategoryService categoryService, ICategoryParentService categoryParentService, INewService newService, UserService userService, GroupRepository groupRepository, ICommentService commentService, FunctionService functionService, JavaMailSender mailSender, NewRepository newRepository) {
         this.categoryService = categoryService;
         this.categoryParentService = categoryParentService;
         this.newService = newService;
@@ -52,6 +55,7 @@ public class HomeController {
         this.commentService = commentService;
         this.functionService = functionService;
         this.mailSender = mailSender;
+        this.newRepository = newRepository;
     }
 
     @GetMapping(value = {"/trang-chu"})
@@ -78,9 +82,9 @@ public class HomeController {
         model.addAttribute("firstWorldNew", newService.findTopByCategoryParentCode("the-gioi"));
         model.addAttribute("firstTechnologyNew", newService.findTopByCategoryParentCode("cong-nghe"));
         model.addAttribute("firstEntertainmentNew", newService.findTopByCategoryParentCode("giai-tri"));
-//        if(userService.findByUserName(principal.getName())!=null) {
+//       bài viết phổ biến
+        model.addAttribute("popularNews", newService.findTop10ByViewsDesc());
 //
-//        }
         if (SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated() && !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
             model.addAttribute("USERMODEL", userService.findByUserName(principal.getName()));
         }
@@ -118,6 +122,9 @@ public class HomeController {
         listNewTag.addAll(listNewCategories);
         model.addAttribute("listNewTag", listNewTag);
 //
+//      tăng lượt view
+        newEntity.setViews(newEntity.getViews()+1);
+        newRepository.save(newEntity);
         return "web/bai-viet";
     }
 

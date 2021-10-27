@@ -68,7 +68,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
                                 style="width: 30px; margin-top: 5px;"
-                                src="https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-profile-line-black-icon-png-image_691051.jpg"
+                                src="${USERMODEL.avatar}"
                                 alt="img" class="fh5co_logo_width"/></a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
                             <a class="dropdown-item" href='/userNew/${USERMODEL.id}'>Quản lí bài viết</a>
@@ -143,6 +143,7 @@
                                                         <th>Người duyệt</th>
                                                         <th>Ngày tạo</th>
                                                         <th>Ngày duyệt</th>
+                                                        <th>Lượt xem</th>
                                                         <th>Thể loại</th>
                                                         <th>Thao tác</th>
                                                     </tr>
@@ -160,6 +161,7 @@
                                                             <td>${item.modifiedBy}</td>
                                                             <td>${item.createdDate}</td>
                                                             <td>${item.modifiedDate}</td>
+                                                            <td>${item.views}</td>
                                                             <td>${listCategory[loop.index]}</td>
                                                             <td>
                                                                 <c:url var="editURL"
@@ -317,16 +319,16 @@
 
     function deleteNew(data) {
         $.ajax({
-            url: '/api-user-new',
+            url: '/api-admin-new',
             type: 'DELETE',
             contentType: 'application/json',
             data: JSON.stringify(data),
             dataType: 'json',
             success: function (result) {
-                window.location.href = "/quan-li-bai-viet?&message=delete_success";
+                window.location.href = "/userNew/${USERMODEL.id}?message=delete_success";
             },
             error: function (error) {
-                window.location.href = "/quan-li-bai-viet?&message=error_system";
+                window.location.href = "/userNew/${USERMODEL.id}?message=delete_success";
             }
         });
     }

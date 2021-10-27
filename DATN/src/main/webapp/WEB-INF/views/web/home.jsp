@@ -82,8 +82,7 @@
                                     <c:if test="${not empty USERMODEL}">
                                         <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-                                                style="width: 30px; margin-top: 5px;"
-                                                src="${USERMODEL.avatar}"
+                                                style="width: 30px; margin-top: 5px;" src="${USERMODEL.avatar}"
                                                 alt="img" class="fh5co_logo_width" /></a>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
                                             <a class="dropdown-item" href='/userNew/${USERMODEL.id}'>Quản lí bài
@@ -111,7 +110,8 @@
             <div class="container-fluid paddding mb-5">
                 <div class="row mx-0">
                     <div class="col-md-6 col-12 paddding animate-box" data-animate-effect="fadeIn">
-                        <div class="fh5co_suceefh5co_height"><img src="${firstSportNew.thumbnail}" alt="img" />
+                        <div class="fh5co_suceefh5co_height"><img
+                                    src="${firstSportNew.thumbnail}" alt="img" />
                             <div class="fh5co_suceefh5co_height_position_absolute"></div>
                             <div class="fh5co_suceefh5co_height_position_absolute_font">
                                 <div class=""><a href="/bai-viet/${firstSportNew.id}" class="color_fff"> <i
@@ -262,16 +262,18 @@
                                 <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">Phổ biến nhất
                                 </div>
                             </div>
-                            <div class="row pb-3">
-                                <div class="col-5 align-self-center">
-                                    <img src="\" alt="img" class="fh5co_most_trading" />
-                                </div>
-                                <div class="col-7 paddding">
-                                    <div class="most_fh5co_treding_font">
+                            <c:forEach var="popularNew" items="${popularNews}">
+                                <div class="row pb-3">
+                                    <div class="col-5 align-self-center">
+                                        <img src="${popularNew.thumbnail}" alt="img" class="fh5co_most_trading" />
                                     </div>
-                                    <div class="most_fh5co_treding_font_123"></div>
+                                    <div class="col-7 paddding">
+                                        <div class="most_fh5co_treding_font">${popularNew.title}
+                                        </div>
+                                        <div class="most_fh5co_treding_font_123">${popularNew.createdDate}</div>
+                                    </div>
                                 </div>
-                            </div>
+                            </c:forEach>
                         </div>
                     </div>
                     <form action="<c:url value='/trang-chu'/>" id="formSubmit" method="GET">

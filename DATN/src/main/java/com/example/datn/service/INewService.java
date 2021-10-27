@@ -46,4 +46,6 @@ public interface INewService {
     List<NewEntity> search(String title,Pageable pageable);
 
     int countSearch(String title);
+
+    List<NewEntity> findTop10ByViewsDesc();
 }

@@ -54,6 +54,7 @@ public class NewService implements INewService {
                 newEntity.setTag(newDTO.getTag());
                 newEntity.setThumbnail(newDTO.getThumbnail());
                 newEntity.setStatus(0);
+                newEntity.setViews(0L);
                 newEntity.setShortDescription(newDTO.getShortDescription());
                 CategoryEntity categoryEntity = categoryRepository.findById(newDTO.getCategoryId()).get();
                 newEntity.setCategoryEntity(categoryEntity);
@@ -168,11 +169,15 @@ public class NewService implements INewService {
     }
 
     @Override
+    public List<NewEntity> findTop10ByViewsDesc() {
+        return newRepository.findTop10ByViewsDesc();
+    }
+
+    @Override
     public void delete(long[] ids) {
         for (long item : ids) {
             commentRepository.deleteAllByNewEntityId(item);
             newRepository.removeById(item);
-
         }
     }
 }

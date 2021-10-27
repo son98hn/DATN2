@@ -70,4 +70,7 @@ public interface NewRepository extends JpaRepository<NewEntity, Long> {
 
     @Query(value = "select count(*) from news as n where n.status=1 and n.title like %?1%", nativeQuery = true)
     int countSearch(String title);
+
+    @Query(value = "select top(10) * from news where news.views>0 and news.status=1 order by news.views desc ",nativeQuery = true)
+    List<NewEntity> findTop10ByViewsDesc();
 }

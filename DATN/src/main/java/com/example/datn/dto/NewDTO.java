@@ -16,6 +16,15 @@ public class NewDTO extends AbstractDTO<NewDTO>{
     private LocalDateTime modifiedDate;
     private Integer status;
     private String tag;
+    private Long views;
+
+    public Long getViews() {
+        return views;
+    }
+
+    public void setViews(Long views) {
+        this.views = views;
+    }
 
     public Integer getStatus() {
         return status;

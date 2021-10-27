@@ -36,6 +36,9 @@ public class NewEntity extends BaseEntity {
     @Column(name = "modifieddate")
     private LocalDateTime modifiedDate;
 
+    @Column(name = "views")
+    private Long views;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryEntity categoryEntity;
@@ -46,6 +49,14 @@ public class NewEntity extends BaseEntity {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Long getViews() {
+        return views;
+    }
+
+    public void setViews(Long views) {
+        this.views = views;
     }
 
     public String getTitle() {

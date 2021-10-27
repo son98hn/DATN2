@@ -66,7 +66,7 @@
                                         <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
                                                 style="width: 30px; margin-top: 5px;"
-                                                src="https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-profile-line-black-icon-png-image_691051.jpg"
+                                                src="${USERMODEL.avatar}"
                                                 alt="img" class="fh5co_logo_width" /></a>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
                                             <a class="dropdown-item" href='/userNew/${USERMODEL.id}'>Quản lí bài viết</a>
@@ -77,9 +77,6 @@
                                     </c:if>
                                     <c:if test="${empty USERMODEL}">
                                         <a class="nav-link" href="/login">LOGIN</a>
-                                        <!-- <img style="width: 30px; margin-top: 5px;"
-                                            src="https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-profile-line-black-icon-png-image_691051.jpg"
-                                            alt="img" class="fh5co_logo_width" /></a> -->
                                     </c:if>
                                 </li>
                             </ul>

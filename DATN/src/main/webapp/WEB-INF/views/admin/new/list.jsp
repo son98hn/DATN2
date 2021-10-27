@@ -175,7 +175,7 @@
                                                             </ul>
                                                         </div>
                                                         <form action="/admin-new" method="get">
-                                                            <input type="text" placeholder="Tìm kiếm" id="search" name="search">
+                                                            <input type="text" placeholder="Tìm kiếm" id="search" name="search" value="${search}">
                                                             <button type="submit"><i
                                                                 class="fa fa-search" aria-hidden="true"></i></button>
                                                             <!-- <a
@@ -223,7 +223,9 @@
                                                                 <th>Người tạo</th>
                                                                 <th>Người duyệt</th>
                                                                 <th>Ngày tạo</th>
+                                                              
                                                                 <th>Ngày duyệt</th>
+                                                                <th>Lượt xem</th>
                                                                 <th>Thể loại</th>
                                                                 <!-- <th>Xem trước</th> -->
                                                                 <th>Thao tác</th>
@@ -240,6 +242,7 @@
                                                                     <td>${item.modifiedBy}</td>
                                                                     <td>${item.createdDate}</td>
                                                                     <td>${item.modifiedDate}</td>
+                                                                    <td>${item.views}</td>
                                                                     <td>${listCategoryNew[loop.index]}</td>
                                                                     <!-- <td></td> -->
                                                                     <td>
