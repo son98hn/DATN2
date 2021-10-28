@@ -61,17 +61,27 @@
 									</div>
 								</li>
 								<li class="nav-item">
-									<c:if test="${not empty USERMODEL}">
-										<a href='<c:url value="/logout"/>'
-											style="text-decoration: none; color: black">Thoát</a>
+									<li class="nav-item dropdown">
+										<c:if test="${not empty USERMODEL}">
+											<a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2"
+												data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
+													style="width: 30px; margin-top: 5px;" src="${USERMODEL.avatar}"
+													alt="img" class="fh5co_logo_width" /></a>
+											<div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
+												<a class="dropdown-item" href='/userNew'>Quản lí bài
+													viết</a>
+												<a class="dropdown-item" href='/profile'>Cập nhật thông
+													tin
+													cá nhân</a>
+												<a class="dropdown-item" href='/resetPassword'>Đổi mật khẩu</a>
+												<a class="dropdown-item" href='/logout'>Logout</a>
+											</div>
+									</li>
 									</c:if>
 									<c:if test="${empty USERMODEL}">
 										<a class="nav-link" href="/login">LOGIN</a>
-										<!-- <img style="width: 30px; margin-top: 5px;"
-                                            src="https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-profile-line-black-icon-png-image_691051.jpg"
-                                            alt="img" class="fh5co_logo_width" /></a> -->
 									</c:if>
-								</li>
+									</li>
 							</ul>
 						</div>
 					</nav>
@@ -90,6 +100,10 @@
 									</c:if>
 									<form id="formSubmit">
 										<div class="form-group">
+											<input type="password" class="form-control" id="oldPassword"
+												name="oldPassword" placeholder="Mật khẩu cũ">
+										</div>
+										<div class="form-group">
 											<input type="password" class="form-control" id="password" name="password"
 												placeholder="Mật khẩu mới">
 										</div>
@@ -97,9 +111,9 @@
 											<input type="password" class="form-control" id="confirmPassword"
 												name="confirmPassword" placeholder="Nhập lại mật khẩu mới">
 										</div>
-										<input type="hidden" id="token" name="token" value="${token}">
 										<button type="button" class="btn btn-primary" id="btnResetPassword">Xác
 											nhận</button>
+										<input type="hidden" id="id" name="id" value="${USERMODEL.id}">
 									</form>
 									<br>
 								</div>
@@ -199,33 +213,37 @@
 				resetPassword(formData);
 			});
 			function resetPassword(data) {
+				var oldPassword = "";
 				var password = "";
 				var confirmPassword = "";
-				var token = "";
+				var id;
 				data.forEach(element => {
+					if (element.name == "oldPassword")
+						oldPassword = element.value;
 					if (element.name == "password")
 						password = element.value;
 					if (element.name == "confirmPassword")
 						confirmPassword = element.value;
-					if (element.name == "token")
-						token = element.value;
+					if (element.name == "id")
+						id = element.value;
 				});
 				sendDta = {
+					oldPassword: oldPassword,
 					password: password,
 					confirmPassword: confirmPassword,
-					token: token
+					id: id,
 				};
 				$.ajax({
 					url: '/resetPassword',
-					type: 'POST',
+					type: 'PUT',
 					contentType: 'application/json',
 					data: JSON.stringify(sendDta),
 					dataType: 'json',
 					success: function (result) {
-						window.location.href = "/resetPassword?token=${token}&message=insert_success";
+						window.location.href = "/resetPassword?message=insert_success";
 					},
 					error: function (error) {
-						window.location.href = "/resetPassword?token=${token}&message=insert_success";
+						window.location.href = "/resetPassword?message=insert_success";
 					}
 				});
 			}

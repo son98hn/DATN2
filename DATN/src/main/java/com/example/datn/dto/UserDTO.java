@@ -21,23 +21,24 @@ public class UserDTO extends AbstractDTO<UserDTO> {
     private String password;
     private String confirmPassword;
     private String token;
+    private String oldPassword;
 
     public UserDTO() {
     }
 
-    public UserDTO(Connection<?> connection) {
-        UserProfile userProfile = connection.fetchUserProfile();
-        this.userId = null;
-        this.email = userProfile.getEmail();
-        this.username = userProfile.getUsername();
-        this.name = userProfile.getLastName();
-        ConnectionKey key = connection.getKey();
-//        gg, fb
-        this.signInProvider=key.getProviderId();
-        // ID of User on google, facebook, twitter.
-        // ID của User trên google, facebook, twitter.
-        this.providerUserId = key.getProviderUserId();
-    }
+//    public UserDTO(Connection<?> connection) {
+//        UserProfile userProfile = connection.fetchUserProfile();
+//        this.userId = null;
+//        this.email = userProfile.getEmail();
+//        this.username = userProfile.getUsername();
+//        this.name = userProfile.getLastName();
+//        ConnectionKey key = connection.getKey();
+////        gg, fb
+//        this.signInProvider=key.getProviderId();
+//        // ID of User on google, facebook, twitter.
+//        // ID của User trên google, facebook, twitter.
+//        this.providerUserId = key.getProviderUserId();
+//    }
 
     public Long getUserId() {
         return userId;
@@ -53,6 +54,14 @@ public class UserDTO extends AbstractDTO<UserDTO> {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
     }
 
     public String getPhone() {

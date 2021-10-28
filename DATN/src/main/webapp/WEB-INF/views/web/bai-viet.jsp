@@ -81,24 +81,25 @@
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <c:if test="${not empty USERMODEL}">
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-                                            style="width: 30px; margin-top: 5px;"
-                                            src="${USERMODEL.avatar}"
-                                            alt="img" class="fh5co_logo_width" /></a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
-                                        <a class="dropdown-item" href='/userNew/${USERMODEL.id}'>Quản lí bài viết</a>
-                                        <a class="dropdown-item" href='/profile?id=${USERMODEL.id}'>Cập nhật thông tin
-                                            cá nhân</a>
-                                        <a class="dropdown-item" href='/logout'>Logout</a>
-                                    </div>
+                                    <c:if test="${not empty USERMODEL}">
+                                        <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
+                                                style="width: 30px; margin-top: 5px;" src="${USERMODEL.avatar}"
+                                                alt="img" class="fh5co_logo_width" /></a>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
+                                            <a class="dropdown-item" href='/userNew'>Quản lí bài
+                                                viết</a>
+                                            <a class="dropdown-item" href='/profile'>Cập nhật thông
+                                                tin
+                                                cá nhân</a>
+                                            <a class="dropdown-item" href='/resetPassword'>Đổi mật khẩu</a>
+                                            <a class="dropdown-item" href='/logout'>Logout</a>
+                                        </div>
                                 </li>
                                 </c:if>
                                 <c:if test="${empty USERMODEL}">
                                     <a class="nav-link" href="/login">LOGIN</a>
-                            
                                 </c:if>
                                 </li>
                             </ul>
@@ -180,14 +181,15 @@
                                 <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">Bài viết liên quan
                                 </div>
                             </div>
-                            <c:forEach var="item" items="${listNewTag}" begin="${item.size()}"
-                            end="${item.size()+7}">
+                            <c:forEach var="item" items="${listNewTag}" begin="${item.size()}" end="${item.size()+7}">
                                 <div class="row pb-3">
                                     <div class="col-5 align-self-center">
-                                        <a href="/bai-viet/${item.id}"><img src="${item.thumbnail}" alt="img" class="fh5co_most_trading" /></a>
+                                        <a href="/bai-viet/${item.id}"><img src="${item.thumbnail}" alt="img"
+                                                class="fh5co_most_trading" /></a>
                                     </div>
                                     <div class="col-7 paddding">
-                                        <div class="most_fh5co_treding_font"><a href="/bai-viet/${item.id}">${item.title}</a></div>
+                                        <div class="most_fh5co_treding_font"><a
+                                                href="/bai-viet/${item.id}">${item.title}</a></div>
                                         <div class="most_fh5co_treding_font_123">${item.createdDate}</div>
                                     </div>
                                 </div>

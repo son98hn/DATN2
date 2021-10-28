@@ -18,7 +18,10 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
@@ -83,7 +86,7 @@ public class HomeController {
         model.addAttribute("firstTechnologyNew", newService.findTopByCategoryParentCode("cong-nghe"));
         model.addAttribute("firstEntertainmentNew", newService.findTopByCategoryParentCode("giai-tri"));
 //       bài viết phổ biến
-        model.addAttribute("popularNews", newService.findTop10ByViewsDesc());
+        model.addAttribute("popularNews", newService.findTop5ByViewsDesc());
 //
         if (SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated() && !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
             model.addAttribute("USERMODEL", userService.findByUserName(principal.getName()));
@@ -123,25 +126,19 @@ public class HomeController {
         model.addAttribute("listNewTag", listNewTag);
 //
 //      tăng lượt view
-        newEntity.setViews(newEntity.getViews()+1);
+        newEntity.setViews(newEntity.getViews() + 1);
         newRepository.save(newEntity);
         return "web/bai-viet";
     }
 
     @GetMapping(value = "/profile")
-    public String profile(@RequestParam(value = "id", required = false) Long id, Model model, Principal principal) {
-        UserEntity userEntity = userService.findById(id);
+    public String profile(Model model, Principal principal) {
+        UserEntity userEntity = userService.findByUserName(principal.getName());
         model.addAttribute("user", userEntity);
         model.addAttribute("categoryParent", categoryParentService.findAll());
         if (SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated() && !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
             model.addAttribute("USERMODEL", userService.findByUserName(principal.getName()));
         }
-        return "web/profile";
-    }
-
-    @PutMapping(value = "/profile", produces = "application/json;charset=UTF-8")
-    public String updateProfile(@RequestBody UserDTO userDTO) {
-        userService.updateProfile(userDTO);
         return "web/profile";
     }
 
@@ -181,6 +178,7 @@ public class HomeController {
 //        model.addAttribute("message", message);
 //        return "web/403";
 //    }
+
     @GetMapping(value = "/login")
     public String loginPage(Model model,
                             @RequestParam(value = "message", required = false) String message) {
@@ -188,17 +186,20 @@ public class HomeController {
         if (Objects.equals(message, "fail")) {
             model.addAttribute("message", "Tên tài khoản hoặc mật khẩu không đúng!");
             model.addAttribute("alert", "danger");
+        } else if (Objects.equals(message, "register_success")) {
+            model.addAttribute("message", "Tạo tài khoản thành công!");
+            model.addAttribute("alert", "success");
         }
         return "web/login";
     }
 
-    @GetMapping(value = "/userNew/{id}")
-    public String listNew(@PathVariable Long id,
-                          @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
-                          @RequestParam(value = "size", required = false, defaultValue = "8") Integer size,
-                          @RequestParam(value = "sort", required = false, defaultValue = "DESC") String sort,
-                          @RequestParam(value = "message", required = false) String message, Model model, Principal principal) {
-        UserEntity user = userService.findById(id);
+    @GetMapping(value = "/userNew")
+    public String listNew(
+            @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+            @RequestParam(value = "size", required = false, defaultValue = "8") Integer size,
+            @RequestParam(value = "sort", required = false, defaultValue = "DESC") String sort,
+            @RequestParam(value = "message", required = false) String message, Model model, Principal principal) {
+        UserEntity user = userService.findByUserName(principal.getName());
 //        Page
         model.addAttribute("totalPage", (int) Math.ceil((double) newService.coutAllByCreatedBy(user.getUsername()) / size));
         model.addAttribute("page", page);
@@ -278,7 +279,7 @@ public class HomeController {
         return "web/forgotPassword";
     }
 
-    @GetMapping(value = "/resetPassword")
+    @GetMapping(value = "/resetPasswordEmail")
     public String resetPasswordForm(@RequestParam(value = "token", required = false) String token, Model model, Principal principal,
                                     @RequestParam(value = "message", required = false) String message) {
         if (SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated() && !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
@@ -293,9 +294,33 @@ public class HomeController {
         model.addAttribute("token", token);
         if (userEntity == null) {
             model.addAttribute("message", "Token không hợp lệ!");
+            model.addAttribute("alert", "danger");
         }
+        return "web/resetPasswordEmail";
+    }
+
+    @GetMapping(value = "/resetPassword")
+    public String resetPassword(
+            @RequestParam(value = "message", required = false) String message,
+            Model model, Principal principal) {
+        if (SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated() && !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+            model.addAttribute("USERMODEL", userService.findByUserName(principal.getName()));
+        }
+        if (Objects.equals(message, "insert_success")) {
+            model.addAttribute("message", "Thay đổi mật khẩu thành công!");
+            model.addAttribute("alert", "success");
+        }
+        model.addAttribute("categoryParent", categoryParentService.findAll());
         return "web/resetPassword";
     }
 
-
+    @GetMapping(value = "/register")
+    public String register(Model model, @RequestParam(value = "message", required = false) String message) {
+        model.addAttribute("categoryParent", categoryParentService.findAll());
+        if (Objects.equals(message, "insert_success")) {
+            model.addAttribute("message", "Đăng ký thành công!");
+            model.addAttribute("alert", "success");
+        }
+        return "web/register";
+    }
 }

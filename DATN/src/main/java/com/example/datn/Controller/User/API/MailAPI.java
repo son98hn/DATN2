@@ -35,8 +35,8 @@ public class MailAPI {
         this.mailSender = mailSender;
     }
 
-    @PostMapping(value = "/resetPassword")
-    public void resetPassword(@RequestBody UserDTO userDTO, Model model) {
+    @PostMapping(value = "/resetPasswordEmail")
+    public void resetPasswordEmail(@RequestBody UserDTO userDTO, Model model) {
         if(userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
             UserEntity userEntity = userService.getResetPasswordToken(userDTO.getToken());
             if(userEntity == null) {
@@ -68,7 +68,7 @@ public class MailAPI {
         String token = RandomString.make(30);
         try {
             userService.updateResetPasswordToken(token, userDTO.getEmail());
-            String resetPasswordLink = Utility.getSiteURL(request) + "/resetPassword?token=" + token;
+            String resetPasswordLink = Utility.getSiteURL(request) + "/resetPasswordEmail?token=" + token;
             sendEmail(userDTO.getEmail(), resetPasswordLink);
             model.addAttribute("message", "Mật khẩu mới đã được gửi vào email của bạn!");
         } catch (UnsupportedEncodingException | MessagingException e) {

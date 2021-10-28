@@ -47,5 +47,5 @@ public interface INewService {
 
     int countSearch(String title);
 
-    List<NewEntity> findTop10ByViewsDesc();
+    List<NewEntity> findTop5ByViewsDesc();
 }

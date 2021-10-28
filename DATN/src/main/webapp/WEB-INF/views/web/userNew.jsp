@@ -63,25 +63,27 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <c:if test="${not empty USERMODEL}">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-                                style="width: 30px; margin-top: 5px;"
-                                src="${USERMODEL.avatar}"
-                                alt="img" class="fh5co_logo_width"/></a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
-                            <a class="dropdown-item" href='/userNew/${USERMODEL.id}'>Quản lí bài viết</a>
-                            <a class="dropdown-item" href='/profile?id=${USERMODEL.id}'>Cập nhật thông tin
-                                cá nhân</a>
-                            <a class="dropdown-item" href='/logout'>Logout</a>
-                        </div>
-                    </li>
-                    </c:if>
-                    <c:if test="${empty USERMODEL}">
-                        <a class="nav-link" href="/login">LOGIN</a>
-                    </c:if>
-                    </li>
+                        <li class="nav-item dropdown">
+                            <c:if test="${not empty USERMODEL}">
+                                <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
+                                        style="width: 30px; margin-top: 5px;" src="${USERMODEL.avatar}"
+                                        alt="img" class="fh5co_logo_width" /></a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
+                                    <a class="dropdown-item" href='/userNew'>Quản lí bài
+                                        viết</a>
+                                    <a class="dropdown-item" href='/profile'>Cập nhật thông
+                                        tin
+                                        cá nhân</a>
+                                    <a class="dropdown-item" href='/resetPassword'>Đổi mật khẩu</a>
+                                    <a class="dropdown-item" href='/logout'>Logout</a>
+                                </div>
+                        </li>
+                        </c:if>
+                        <c:if test="${empty USERMODEL}">
+                            <a class="nav-link" href="/login">LOGIN</a>
+                        </c:if>
+                        </li>
                 </ul>
             </div>
         </nav>
@@ -89,7 +91,7 @@
 </div>
 
 <div class="container-fluid pb-4 pt-4 paddding">
-    <div class="container paddding">
+    <div class="container paddding" style="width: 75%;">
         <div class="row mx-0">
             <div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
                 <div class="login-form">
@@ -100,7 +102,7 @@
                         <form action="/addnew" id="formSubmit" method="GET">
                             <div class="main-content-inner">
                                 <div class="page-content">
-                                    <div class="row">
+                                    <div class="row" style="margin-left: 80px;">
                                         <div class="col-xs-12">
                                             <c:if test="${not empty messageResponse}">
                                                 <div class="alert alert-${alert}">${messageResponse}</div>
@@ -131,7 +133,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" style="margin-left: 80px;">
                                         <div class="col-xs-12">
                                             <div class="table-responsive">
                                                 <table class="table table-bordered">
@@ -199,7 +201,7 @@
                             </div>
                         </form>
                         <form action="<c:url value='/userNew/${USERMODEL.id}'/>" id="formSubmit1" method="GET">
-                            <ul class="pagination" id="pagination"></ul>
+                            <ul class="pagination" id="pagination" style="margin-left: 80px;"></ul>
                             <input type="hidden" value="" id="page" name="page"/>
                         </form>
                     </div>
@@ -325,10 +327,10 @@
             data: JSON.stringify(data),
             dataType: 'json',
             success: function (result) {
-                window.location.href = "/userNew/${USERMODEL.id}?message=delete_success";
+                window.location.href = "/userNew?message=delete_success";
             },
             error: function (error) {
-                window.location.href = "/userNew/${USERMODEL.id}?message=delete_success";
+                window.location.href = "/userNew?message=delete_success";
             }
         });
     }

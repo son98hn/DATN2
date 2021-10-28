@@ -85,11 +85,12 @@
                                                 style="width: 30px; margin-top: 5px;" src="${USERMODEL.avatar}"
                                                 alt="img" class="fh5co_logo_width" /></a>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
-                                            <a class="dropdown-item" href='/userNew/${USERMODEL.id}'>Quản lí bài
+                                            <a class="dropdown-item" href='/userNew'>Quản lí bài
                                                 viết</a>
-                                            <a class="dropdown-item" href='/profile?id=${USERMODEL.id}'>Cập nhật thông
+                                            <a class="dropdown-item" href='/profile'>Cập nhật thông
                                                 tin
                                                 cá nhân</a>
+                                                <a class="dropdown-item" href='/resetPassword'>Đổi mật khẩu</a>
                                             <a class="dropdown-item" href='/logout'>Logout</a>
                                         </div>
                                 </li>

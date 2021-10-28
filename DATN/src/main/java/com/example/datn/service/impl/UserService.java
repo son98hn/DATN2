@@ -1,8 +1,6 @@
 package com.example.datn.service.impl;
 
-
 import com.example.datn.dto.UserDTO;
-import com.example.datn.entity.GroupEntity;
 import com.example.datn.entity.UserEntity;
 import com.example.datn.entity.UserGroupEntity;
 import com.example.datn.repository.GroupRepository;
@@ -11,14 +9,10 @@ import com.example.datn.repository.UserRepository;
 import com.example.datn.service.IUserService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionKey;
-import org.springframework.social.connect.UserProfile;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class UserService implements IUserService {
@@ -176,16 +170,16 @@ public class UserService implements IUserService {
     @Override
     public void updateProfile(UserDTO userDTO) {
         UserEntity oldUser = userRepository.findById(userDTO.getId()).get();
-            if (!verifyUpdateUser(oldUser, userDTO) && verifyEmail(userDTO.getEmail()) && verifyPhone(userDTO.getPhone())                                                                                                   ) {
-                userDTO.setMessage("Số điện thoại hoặc Email đã tồn tại!");
-            } else {
-                oldUser.setEmail(userDTO.getEmail());
-                oldUser.setPhone(userDTO.getPhone());
-                oldUser.setName(userDTO.getName());
-                oldUser.setAvatar(userDTO.getAvatar());
-                userRepository.save(oldUser);
-                userDTO.setMessage("Cập nhật tài khoản thành công!");
-            }
+        if (!verifyUpdateUser(oldUser, userDTO) && verifyEmail(userDTO.getEmail()) && verifyPhone(userDTO.getPhone())) {
+            userDTO.setMessage("Số điện thoại hoặc Email đã tồn tại!");
+        } else {
+            oldUser.setEmail(userDTO.getEmail());
+            oldUser.setPhone(userDTO.getPhone());
+            oldUser.setName(userDTO.getName());
+            oldUser.setAvatar(userDTO.getAvatar());
+            userRepository.save(oldUser);
+            userDTO.setMessage("Cập nhật tài khoản thành công!");
+        }
     }
 
     @Override
@@ -210,7 +204,7 @@ public class UserService implements IUserService {
     @Override
     public void updateResetPasswordToken(String token, String email) {
         UserEntity userEntity = userRepository.findByEmail(email);
-        if(userEntity!=null) {
+        if (userEntity != null) {
             userEntity.setResetPasswordToken(token);
             userRepository.save(userEntity);
         }
@@ -219,11 +213,11 @@ public class UserService implements IUserService {
     @Override
     public void processOAuthPostLogin(String username, String email) {
         UserEntity userEntity = userRepository.findByUsername(username);
-        if(userEntity==null) {
+        if (userEntity == null) {
             UserEntity newUser = new UserEntity();
             newUser.setUsername(username);
             newUser.setName(username);
-            newUser.setEmail("FB_"+email);
+            newUser.setEmail("FB_" + email);
             newUser.setPassword(bCryptPasswordEncoder.encode(DefaultPassword));
             newUser.setType("fb");
             userRepository.save(newUser);

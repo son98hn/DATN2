@@ -169,8 +169,8 @@ public class NewService implements INewService {
     }
 
     @Override
-    public List<NewEntity> findTop10ByViewsDesc() {
-        return newRepository.findTop10ByViewsDesc();
+    public List<NewEntity> findTop5ByViewsDesc() {
+        return newRepository.findTop5ByViewsDesc();
     }
 
     @Override

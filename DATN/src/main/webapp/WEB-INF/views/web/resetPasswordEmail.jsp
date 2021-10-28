@@ -7,8 +7,7 @@
 			<!-- Required meta tags -->
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-			<title>Cập nhật thông tin tài khoản</title>
-			<script src="<c:url value='/ckfinder/ckfinder.js'/>"></script>
+			<title>ĐỔI MẬT KHẨU</title>
 			<link rel="stylesheet" href="<c:url value='/template/web/css/media_query.css'/>" />
 			<link rel="stylesheet" href="<c:url value='/template/web/css/bootstrap.css'/>" />
 			<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
@@ -62,27 +61,17 @@
 									</div>
 								</li>
 								<li class="nav-item">
-									<li class="nav-item dropdown">
-										<c:if test="${not empty USERMODEL}">
-											<a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2"
-												data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-													style="width: 30px; margin-top: 5px;" src="${USERMODEL.avatar}"
-													alt="img" class="fh5co_logo_width" /></a>
-											<div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
-												<a class="dropdown-item" href='/userNew'>Quản lí bài
-													viết</a>
-												<a class="dropdown-item" href='/profile'>Cập nhật thông
-													tin
-													cá nhân</a>
-												<a class="dropdown-item" href='/resetPassword'>Đổi mật khẩu</a>
-												<a class="dropdown-item" href='/logout'>Logout</a>
-											</div>
-									</li>
+									<c:if test="${not empty USERMODEL}">
+										<a href='<c:url value="/logout"/>'
+											style="text-decoration: none; color: black">Thoát</a>
 									</c:if>
 									<c:if test="${empty USERMODEL}">
 										<a class="nav-link" href="/login">LOGIN</a>
+										<!-- <img style="width: 30px; margin-top: 5px;"
+                                            src="https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-profile-line-black-icon-png-image_691051.jpg"
+                                            alt="img" class="fh5co_logo_width" /></a> -->
 									</c:if>
-									</li>
+								</li>
 							</ul>
 						</div>
 					</nav>
@@ -94,56 +83,23 @@
 					<div class="row mx-0">
 						<div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
 							<div class="login-form">
+								<h3>QUÊN MẬT KHẨU</h3>
 								<div class="main-div">
 									<c:if test="${not empty message}">
 										<div class="alert alert-${alert}">${message}</div>
 									</c:if>
 									<form id="formSubmit">
 										<div class="form-group">
-											<span>Họ và tên: </span>
-											<input type="text" class="form-control" id="name" name="name"
-												placeholder="Tên" value="${user.name}">
-										</div>
-
-										<div class="form-group">
-											<span>Email: </span>
-											<input type="text" class="form-control" id="email" name="email"
-												placeholder="Email" value="${user.email}">
+											<input type="password" class="form-control" id="password" name="password"
+												placeholder="Mật khẩu mới">
 										</div>
 										<div class="form-group">
-											<span>Số điện thoại: </span>
-											<input type="text" class="form-control" id="phone" name="phone"
-												placeholder="Số điện thoại" value="${user.phone}">
+											<input type="password" class="form-control" id="confirmPassword"
+												name="confirmPassword" placeholder="Nhập lại mật khẩu mới">
 										</div>
-			
-										<div class="form-group">
-											<span>Hình đại diện</span>
-											<div class="avatar">
-												<c:if test="${empty user.avatar}">
-													<img id="avatar"
-														src="https://yt3.ggpht.com/-f6NCDKG2Ukw/AAAAAAAAAAI/AAAAAAAAAAA/MqMm3rgmqCY/s48-c-k-no-mo-rj-c0xffffff/photo.jpg"
-														class="img-fluid"
-														style="max-width: 300px; max-height: 300px;" />
-												</c:if>
-												<c:if test="${not empty user.avatar}">
-													<img id="avatar" src="${user.avatar}" class="img-fluid"
-														style="max-width: 300px; max-height: 300px;" />
-												</c:if>
-											</div>
-											<div class="file-field">
-												<p>
-													<strong id="IAvatar">Chọn ảnh</strong><br />
-													<button class="btn btn-primary btn-sm waves-effect waves-light"
-														type="button" value="Browse Image"
-														onclick="BrowseServer( 'Images:/', 'IAvatar' );">Browse Image
-													</button>
-												</p>
-												<input type="hidden" name="avatar" id="image_src" value="${user.avatar}"/>
-											</div>
-										</div>
-										<input type="hidden" value="${user.id}" id="id" name="id" />
-										<button type="button" class="btn btn-primary" id="btnUpdate">Cập nhật</button>
-
+										<input type="hidden" id="token" name="token" value="${token}">
+										<button type="button" class="btn btn-primary" id="btnResetPassword">Xác
+											nhận</button>
 									</form>
 									<br>
 								</div>
@@ -237,97 +193,39 @@
 		<!-- Main -->
 		<script src="<c:url value='/template/web/js/main.js'/>"></script>
 		<script>
-			var editor = '';
-			$(document).ready(function () {
-				editor = CKEDITOR.replace('content',
-					{
-						filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
-						filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?type=Images',
-						filebrowserFlashBrowseUrl: '/ckfinder/ckfinder.html?type=Flash',
-						filebrowserUploadUrl: '/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
-						filebrowserImageUploadUrl: '/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
-						filebrowserFlashUploadUrl: '/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
-					});
-			});
-
-			/*Avatar start*/
-			function BrowseServer(startupPath, functionData) {
-				// You can use the "CKFinder" class to render CKFinder in a page:
-				var finder = new CKFinder();
-
-				// The path for the installation of CKFinder (default = "/ckfinder/").
-				finder.basePath = '../';
-
-				//Startup path in a form: "Type:/path/to/directory/"
-				finder.startupPath = startupPath;
-
-				// Name of a function which is called when a file is selected in CKFinder.
-				finder.selectActionFunction = SetFileField;
-
-				// Additional data to be passed to the selectActionFunction in a second argument.
-				// We'll use this feature to pass the Id of a field that will be updated.
-				finder.selectActionData = functionData;
-
-				// Name of a function which is called when a thumbnail is selected in CKFinder. Preview img
-				// finder.selectThumbnailActionFunction = ShowThumbnails;
-
-				// Launch CKFinder
-				finder.popup();
-			}
-
-			function SetFileField(fileUrl, data) {
-				document.getElementById(data["selectActionData"]).innerHTML = this
-					.getSelectedFile().name;
-				document.getElementById("avatar").src = fileUrl;
-				$('#avatar').val(fileUrl);
-				$('#image_src').val(fileUrl);
-			}
-
-			$('#btnUpdate').click(function (e) {
+			$('#btnResetPassword').click(function (e) {
 				e.preventDefault();
-				// var data = {};
 				var formData = $('#formSubmit').serializeArray();
-				// $.each(formData, function (i, v) {
-				//     data["" + v.name + ""] = v.value;
-				// });
-				register(formData);
+				resetPassword(formData);
 			});
-			function register(data) {
-				var name = "";
-				var email = "";
-				var phone = "";
-				var avatar = "";
-				var id;
+			function resetPassword(data) {
+				var password = "";
+				var confirmPassword = "";
+				var token = "";
 				data.forEach(element => {
-					if (element.name == "name")
-						name = element.value;
-					if (element.name == "email")
-						email = element.value;
-					if (element.name == "phone")
-						phone = element.value;
-					if (element.name == "avatar")
-						avatar = element.value;
-					if (element.name == "id")
-						id = element.value;
+					if (element.name == "password")
+						password = element.value;
+					if (element.name == "confirmPassword")
+						confirmPassword = element.value;
+					if (element.name == "token")
+						token = element.value;
 				});
 				sendDta = {
-					name: name,
-					email: email,
-					phone: phone,
-					avatar: avatar,
-					id: id
+					password: password,
+					confirmPassword: confirmPassword,
+					token: token
 				};
 				$.ajax({
-					url: '/profile',
-					type: 'PUT',
+					url: '/resetPasswordEmail',
+					type: 'POST',
 					contentType: 'application/json',
 					data: JSON.stringify(sendDta),
 					dataType: 'json',
 					success: function (result) {
-						window.location.href = "/trang-chu";
+						window.location.href = "/resetPasswordEmail?token=${token}&message=insert_success";
 					},
 					error: function (error) {
-						window.location.href = "/trang-chu";
+						window.location.href = "/resetPasswordEmail?token=${token}&message=insert_success";
 					}
 				});
 			}

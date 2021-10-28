@@ -60,7 +60,7 @@
 										</c:forEach>
 									</div>
 								</li>
-								<li class="nav-item">
+								<!-- <li class="nav-item">
 									<c:if test="${not empty USERMODEL}">
 										<a href='<c:url value="/logout"/>'
 											style="text-decoration: none; color: black">Thoát</a>
@@ -71,7 +71,7 @@
                                             src="https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-profile-line-black-icon-png-image_691051.jpg"
                                             alt="img" class="fh5co_logo_width" /></a> -->
 									</c:if>
-								</li>
+								</li> -->
 							</ul>
 						</div>
 					</nav>

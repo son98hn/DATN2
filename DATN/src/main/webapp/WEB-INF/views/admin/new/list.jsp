@@ -222,8 +222,7 @@
                                                                 <th>Tên bài viết</th>
                                                                 <th>Người tạo</th>
                                                                 <th>Người duyệt</th>
-                                                                <th>Ngày tạo</th>
-                                                              
+                                                                <th>Tác giả</th>
                                                                 <th>Ngày duyệt</th>
                                                                 <th>Lượt xem</th>
                                                                 <th>Thể loại</th>

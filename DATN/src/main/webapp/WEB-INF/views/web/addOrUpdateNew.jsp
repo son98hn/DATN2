@@ -64,19 +64,21 @@
                                     </div>
                                 </li>
                                 <li class="nav-item">
+                                <li class="nav-item dropdown">
                                     <c:if test="${not empty USERMODEL}">
-                                    <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-                                            style="width: 30px; margin-top: 5px;"
-                                            src="${USERMODEL.avatar}"
-                                            alt="img" class="fh5co_logo_width" /></a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
-                                        <a class="dropdown-item" href='/userNew/${USERMODEL.id}'>Quản lí bài viết</a>
-                                        <a class="dropdown-item" href='/profile?id=${USERMODEL.id}'>Cập nhật thông tin
-                                            cá nhân</a>
-                                        <a class="dropdown-item" href='/logout'>Logout</a>
-                                    </div>
+                                        <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
+                                                style="width: 30px; margin-top: 5px;" src="${USERMODEL.avatar}"
+                                                alt="img" class="fh5co_logo_width" /></a>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
+                                            <a class="dropdown-item" href='/userNew'>Quản lí bài
+                                                viết</a>
+                                            <a class="dropdown-item" href='/profile'>Cập nhật thông
+                                                tin
+                                                cá nhân</a>
+                                            <a class="dropdown-item" href='/resetPassword'>Đổi mật khẩu</a>
+                                            <a class="dropdown-item" href='/logout'>Logout</a>
+                                        </div>
                                 </li>
                                 </c:if>
                                 <c:if test="${empty USERMODEL}">
@@ -349,10 +351,10 @@
                     data: JSON.stringify(data),
                     dataType: 'json',
                     success: function (result) {
-                        window.location.href = "/userNew/${USERMODEL.id}?message=insert_success";
+                        window.location.href = "/userNew?message=insert_success";
                     },
                     error: function (error) {
-                        window.location.href = "/userNew/${USERMODEL.id}?message=insert_success";
+                        window.location.href = "/userNew?message=insert_success";
                     }
                 });
             }
@@ -364,10 +366,10 @@
                     data: JSON.stringify(data),
                     dataType: 'json',
                     success: function (result) {
-                        window.location.href = "/userNew/${USERMODEL.id}?message=update_success";
+                        window.location.href = "/userNew?message=update_success";
                     },
                     error: function (error) {
-                        window.location.href = "/userNew/${USERMODEL.id}?message=update_success";
+                        window.location.href = "/userNew?message=update_success";
                     }
                 });
             }

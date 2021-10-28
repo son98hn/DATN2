@@ -60,18 +60,28 @@
                                         </c:forEach>
                                     </div>
                                 </li>
-                                <li class="nav-item">
-                                    <c:if test="${not empty USERMODEL}">
-                                        <a href='<c:url value="/logout"/>'
-                                            style="text-decoration: none; color: black">Thoát</a>
-                                    </c:if>
-                                    <c:if test="${empty USERMODEL}">
-                                        <a class="nav-link" href="/login">LOGIN</a>
-                                            <!-- <img style="width: 30px; margin-top: 5px;"
-                                            src="https://png.pngtree.com/png-vector/20190223/ourlarge/pngtree-profile-line-black-icon-png-image_691051.jpg"
-                                            alt="img" class="fh5co_logo_width" /></a> -->
-                                    </c:if>
-                                </li>
+								<li class="nav-item">
+									<li class="nav-item dropdown">
+										<c:if test="${not empty USERMODEL}">
+											<a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2"
+												data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
+													style="width: 30px; margin-top: 5px;" src="${USERMODEL.avatar}"
+													alt="img" class="fh5co_logo_width" /></a>
+											<div class="dropdown-menu" aria-labelledby="dropdownMenuLink_1">
+												<a class="dropdown-item" href='/userNew'>Quản lí bài
+													viết</a>
+												<a class="dropdown-item" href='/profile'>Cập nhật thông
+													tin
+													cá nhân</a>
+												<a class="dropdown-item" href='/resetPassword'>Đổi mật khẩu</a>
+												<a class="dropdown-item" href='/logout'>Logout</a>
+											</div>
+									</li>
+									</c:if>
+									<c:if test="${empty USERMODEL}">
+										<a class="nav-link" href="/login">LOGIN</a>
+									</c:if>
+									</li>
 							</ul>
 						</div>
 					</nav>
@@ -255,10 +265,10 @@
                     data: JSON.stringify(sendDta),
                     dataType: 'json',
                     success: function (result) {
-                        window.location.href = "/register?id=" + result.id + "&message=insert_success";
+                        window.location.href = "/register?message=insert_success";
                     },
                     error: function (error) {
-                        window.location.href = "/register?message=error_system";
+                        window.location.href = "/register?message=insert_success";
                     }
                 });
             }
