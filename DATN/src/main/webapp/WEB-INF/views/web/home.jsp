@@ -110,8 +110,7 @@
             <div class="container-fluid paddding mb-5">
                 <div class="row mx-0">
                     <div class="col-md-6 col-12 paddding animate-box" data-animate-effect="fadeIn">
-                        <div class="fh5co_suceefh5co_height"><img
-                                    src="${firstSportNew.thumbnail}" alt="img" />
+                        <div class="fh5co_suceefh5co_height"><img src="${firstSportNew.thumbnail}" alt="img" />
                             <div class="fh5co_suceefh5co_height_position_absolute"></div>
                             <div class="fh5co_suceefh5co_height_position_absolute_font">
                                 <div class=""><a href="/bai-viet/${firstSportNew.id}" class="color_fff"> <i
@@ -268,9 +267,9 @@
                                         <img src="${popularNew.thumbnail}" alt="img" class="fh5co_most_trading" />
                                     </div>
                                     <div class="col-7 paddding">
-                                        <div class="most_fh5co_treding_font">${popularNew.title}
+                                        <div class="most_fh5co_treding_font"><a href="/bai-viet/${popularNew.id}">${popularNew.title}</a>
                                         </div>
-                                        <div class="most_fh5co_treding_font_123">${popularNew.createdDate}</div>
+                                        <div class="most_fh5co_treding_font_123"><a href="/bai-viet/${popularNew.id}">${popularNew.createdDate}</a></div>
                                     </div>
                                 </div>
                             </c:forEach>

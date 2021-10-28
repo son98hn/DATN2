@@ -35,7 +35,6 @@ public class AdminController {
         this.groupService = groupService;
     }
 
-
     @GetMapping("/admin-new")
     public String listNew(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
                           @RequestParam(value = "size", required = false, defaultValue = "15") Integer size,
@@ -193,7 +192,6 @@ public class AdminController {
             model.addAttribute("messageResponse", "Reset mật khẩu thành công!");
             model.addAttribute("alert", "success");
         }
-//
 //
         //      tìm nhóm quyền
         List<List> list_groupName_list = new ArrayList<>();
