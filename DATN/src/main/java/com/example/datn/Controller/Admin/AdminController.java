@@ -42,6 +42,7 @@ public class AdminController {
                           @RequestParam(value = "category", required = false, defaultValue = "") String category,
                           @RequestParam(value = "message", required = false) String message,
                           @RequestParam(value = "search", required = false, defaultValue = "") String search,
+                          @RequestParam(value = "sortBy" ,required = false, defaultValue = "id") String sortBy,
                           Model model, Principal principal) {
 //        phân quyền theo tk đăng nhập
         String userName = principal.getName();
@@ -61,13 +62,14 @@ public class AdminController {
         model.addAttribute("sort", sort);
         model.addAttribute("search", search);
         model.addAttribute("category", category);
+        model.addAttribute("sortBy", sortBy);
         model.addAttribute("listCategory", categoryService.findAll());
         Sort sortable = null;
         if (sort.equals("asc")) {
-            sortable = Sort.by("id").ascending();
+            sortable = Sort.by(sortBy).ascending();
         }
         if (sort.equals("desc")) {
-            sortable = Sort.by("id").descending();
+            sortable = Sort.by(sortBy).descending();
         }
         Pageable pageable = PageRequest.of(page - 1, size, sortable);
         if (search != null && !search.equals("")) {

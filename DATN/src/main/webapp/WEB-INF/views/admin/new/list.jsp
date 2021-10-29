@@ -51,7 +51,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="main-container" id="main-container">
                 <script type="text/javascript">
                     try {
@@ -114,7 +113,6 @@
                             data-icon="ace-icon fa fa-angle-double-left"
                             data-icon2="ace-icon fa fa-angle-double-right"></i>
                     </div>
-
                 </div>
                 <div class="main-content">
                     <form action="<c:url value='/admin-new'/>" id="formSubmit" method="GET">
@@ -135,53 +133,30 @@
                                             <div class="table-btn-controls">
                                                 <div class="pull-right tableTools-container">
                                                     <div class="dt-buttons btn-overlap btn-group">
-                                                        <!-- <select class="form-control" id="category" name="category">
-                                                            <option>Thể loại</option>
-                                                            <c:forEach items="${listCategory}" var="category">
-                                                                <option <c:if
-                                                                    test="${category.id == news.categoryEntity.id}">
-                                                                    selected="selected"</c:if>
-                                                                    value="/admin-new?category=${category.code}">${category.name}
-                                                                </option>
-                                                            </c:forEach>
-                                                        </select> -->
-                                                        <!-- <div class="dropdown">
-                                                            <button class="btn btn-default dropdown-toggle"
-                                                                type="button" data-toggle="dropdown">Lọc theo thể loại
-                                                                bài viết
-                                                                <span class="caret"></span></button>
-                                                            <ul class="dropdown-menu">
-                                                                <c:forEach items="${listCategory}" var="category">
-                                                                    <li><a
-                                                                            href="/admin-new?category=${category.code}">${category.name}</a>
-                                                                    </li>
-                                                                </c:forEach>
-                                                            </ul>
-                                                        </div> -->
                                                         <div class="dropdown">
                                                             <button class="btn btn-primary dropdown-toggle"
-                                                                type="button" data-toggle="dropdown">Lọc theo thể loại
-                                                                bài viết
+                                                                type="button" data-toggle="dropdown">Tìm theo
                                                                 <span class="caret"></span></button>
-
                                                             <ul class="dropdown-menu"
                                                                 style="height: 300px; overflow: auto;">
+                                                                <li><a href="/admin-new?sortBy=views&sort=desc">Bài viết
+                                                                        có nhiều lượt xem nhất</a>
+                                                                </li>
+                                                                <li><a href="/admin-new?sortBy=views&sort=asc">Bài viết
+                                                                        có ít lượt xem nhất</a>
+                                                                </li>
                                                                 <c:forEach items="${listCategory}" var="category">
                                                                     <li><a
                                                                             href="/admin-new?category=${category.code}">${category.name}</a>
                                                                     </li>
-
                                                                 </c:forEach>
                                                             </ul>
                                                         </div>
                                                         <form action="/admin-new" method="get">
-                                                            <input type="text" placeholder="Tìm kiếm" id="search" name="search" value="${search}">
-                                                            <button type="submit"><i
-                                                                class="fa fa-search" aria-hidden="true"></i></button>
-                                                            <!-- <a
-                                                                href="/admin-new?page=1&size=15&sort=desc&category=&search=trường"><i
-                                                                    class="fa fa-search" aria-hidden="true"></i>
-                                                            </a> -->
+                                                            <input type="text" placeholder="Tìm kiếm" id="search"
+                                                                name="search" value="${search}">
+                                                            <button type="submit"><i class="fa fa-search"
+                                                                    aria-hidden="true"></i></button>
                                                         </form>
                                                         <a flag="info" class="dt-button buttons-colvis btn btn-white btn-primary
 														btn-bold" data-toggle="tooltip" title='Thêm bài viết' href='
@@ -226,7 +201,6 @@
                                                                 <th>Ngày duyệt</th>
                                                                 <th>Lượt xem</th>
                                                                 <th>Thể loại</th>
-                                                                <!-- <th>Xem trước</th> -->
                                                                 <th>Thao tác</th>
                                                             </tr>
                                                         </thead>
@@ -243,7 +217,6 @@
                                                                     <td>${item.modifiedDate}</td>
                                                                     <td>${item.views}</td>
                                                                     <td>${listCategoryNew[loop.index]}</td>
-                                                                    <!-- <td></td> -->
                                                                     <td>
                                                                         <c:url var="editURL"
                                                                             value="/admin-addOrUpdateNew">
@@ -273,8 +246,7 @@
                                                     <input type="hidden" value="" id="page" name="page" />
                                                     <input type="hidden" value="" id="size" name="size" />
                                                     <input type="hidden" value="" id="sort" name="sort" />
-                                                    <!-- <input type="hidden" value="" id="category" name="category" /> -->
-                                                    <!-- <input type="hidden" value="" id="search" name="search" /> -->
+                                                    <input type="hidden" value="" id="sortBy" name="sortBy">
                                                 </div>
                                             </div>
                                         </div>
@@ -292,11 +264,9 @@
                                 <a href="#">
                                     <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
                                 </a>
-
                                 <a href="#">
                                     <i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
                                 </a>
-
                                 <a href="#">
                                     <i class="ace-icon fa fa-rss-square orange bigger-150"></i>
                                 </a>
@@ -322,7 +292,8 @@
             var totalPages = ${ totalPage };
             var currentPage = ${ page };
             var limit = ${ size };
-            var sortBy = '${sort}';
+            var sort = '${sort}';
+            var sortBy = '${sortBy}';
             var search = '${search}';
             var category = '${category}';
             $(function () {
@@ -336,7 +307,8 @@
                             $('#page').val(page);
                             $('#search').val(search);
                             $('#category').val(category);
-                            $('#sort').val(sortBy);
+                            $('#sort').val(sort);
+                            $('#sortBy').val(sortBy);
                             $('#formSubmit').submit();
                         }
                     }
