@@ -4,6 +4,7 @@ import com.example.datn.dto.NewDTO;
 import com.example.datn.entity.NewEntity;
 import org.springframework.data.domain.Pageable;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface INewService {
@@ -48,4 +49,6 @@ public interface INewService {
     int countSearch(String title);
 
     List<NewEntity> findTop5ByViewsDesc();
+
+    void autoCreateChinhtri() throws IOException;
 }

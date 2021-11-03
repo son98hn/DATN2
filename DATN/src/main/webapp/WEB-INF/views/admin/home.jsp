@@ -133,6 +133,8 @@
                                             <div class="table-btn-controls">
                                                 <div class="pull-right tableTools-container">
                                                     <div class="dt-buttons btn-overlap btn-group">
+                                                        <button id="autoCreate" type="submit">Tự động lấy bài
+                                                            viết</button>
                                                         <a flag="info" class="dt-button buttons-colvis btn btn-white btn-primary
 														btn-bold" data-toggle="tooltip" title='Thêm bài viết' href='
 														<c:url value="/admin-addOrUpdateNew" />' <<c:if test="${userRoleDetail.contains('add-new') == true}">
@@ -344,6 +346,25 @@
                             window.location.href = "/admin-home";
                         }
                     });
+                }
+
+                $('#autoCreate').click(function (e) {
+                    e.preventDefault();
+                    autoAdd();
+                });
+
+                function autoAdd() {
+                    $.ajax({
+                        url: '/api-admin-auto-chinhtri',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        success: function (result) {
+                            window.location.href = "/admin-home?message=insert_success";
+                        },
+                        error: function (error) {
+                            window.location.href = "/admin-home?message=insert_success";
+                        }
+                    })
                 }
             </script>
         </body>

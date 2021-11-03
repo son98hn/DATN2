@@ -90,16 +90,14 @@
                                             <a class="dropdown-item" href='/profile'>Cập nhật thông
                                                 tin
                                                 cá nhân</a>
-                                                <a class="dropdown-item" href='/resetPassword'>Đổi mật khẩu</a>
+                                            <a class="dropdown-item" href='/resetPassword'>Đổi mật khẩu</a>
                                             <a class="dropdown-item" href='/logout'>Logout</a>
                                         </div>
                                 </li>
                                 </c:if>
                                 <c:if test="${empty USERMODEL}">
                                     <a class="nav-link" href="/login">LOGIN</a>
-
                                 </c:if>
-
                                 </li>
 
                             </ul>
@@ -268,9 +266,11 @@
                                         <img src="${popularNew.thumbnail}" alt="img" class="fh5co_most_trading" />
                                     </div>
                                     <div class="col-7 paddding">
-                                        <div class="most_fh5co_treding_font"><a href="/bai-viet/${popularNew.id}">${popularNew.title}</a>
+                                        <div class="most_fh5co_treding_font"><a
+                                                href="/bai-viet/${popularNew.id}">${popularNew.title}</a>
                                         </div>
-                                        <div class="most_fh5co_treding_font_123"><a href="/bai-viet/${popularNew.id}">${popularNew.createdDate}</a></div>
+                                        <div class="most_fh5co_treding_font_123"><a
+                                                href="/bai-viet/${popularNew.id}">${popularNew.createdDate}</a></div>
                                     </div>
                                 </div>
                             </c:forEach>

@@ -7,6 +7,7 @@ import com.example.datn.service.INewService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 
@@ -48,5 +49,10 @@ public class NewAPI {
     @DeleteMapping(value = "/api-admin-new", produces = "application/json;charset=UTF-8")
     public void deleteNew(@RequestBody long[] ids) {
         newService.delete(ids);
+    }
+
+    @PostMapping(value = "/api-admin-auto-chinhtri")
+    public void autoCreateChinhtri() throws IOException {
+        newService.autoCreateChinhtri();
     }
 }

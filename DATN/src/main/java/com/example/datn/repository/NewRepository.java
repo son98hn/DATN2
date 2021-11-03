@@ -46,10 +46,10 @@ public interface NewRepository extends JpaRepository<NewEntity, Long> {
             "c.category_parent_id=cp.id where cp.code=?1 and n.status=1 order by n.id DESC", nativeQuery = true)
     NewEntity findTopByCategoryParentCode(String categoryParentCode);
 
-    @Query(value = "select top(3) * from news where news.tag=?1", nativeQuery = true)
+    @Query(value = "select top(3) * from news where news.tag=?1 and news.status=1", nativeQuery = true)
     List<NewEntity> findTop3ByTag(String tag);
 
-    @Query(value = "select * from news as n where n.category_id=?1 order by n.id DESC", nativeQuery = true)
+    @Query(value = "select * from news as n where n.category_id=?1 and n.status=1 order by n.id DESC", nativeQuery = true)
     List<NewEntity> findByCategoryEntityId(Long categoryId);
 
     @Query(value = "select * from news as n where n.category_id=?1", nativeQuery = true)

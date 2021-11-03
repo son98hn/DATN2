@@ -7,10 +7,16 @@ import com.example.datn.repository.CategoryRepository;
 import com.example.datn.repository.CommentRepository;
 import com.example.datn.repository.NewRepository;
 import com.example.datn.service.INewService;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,7 +37,7 @@ public class NewService implements INewService {
     public void saveNew(NewDTO newDTO) {
         if (newDTO.getId() != null) {
             NewEntity oldNewEntity = newRepository.findById(newDTO.getId()).get();
-            if(!verifyUpdateNew(oldNewEntity, newDTO) && verifyContent(newDTO.getContent()) && verifyTitle(newDTO.getTitle())) {
+            if (!verifyUpdateNew(oldNewEntity, newDTO) && verifyContent(newDTO.getContent()) && verifyTitle(newDTO.getTitle())) {
                 newDTO.setMessage("Bài viết đã tồn tại");
             } else {
                 oldNewEntity.setTag(newDTO.getTag());
@@ -46,7 +52,7 @@ public class NewService implements INewService {
             }
         } else {
             NewEntity newEntity = new NewEntity();
-            if(!verifyContent(newDTO.getContent()) && !verifyTitle(newDTO.getTitle())) {
+            if (!verifyContent(newDTO.getContent()) && !verifyTitle(newDTO.getTitle())) {
                 newEntity.setCreatedBy(newDTO.getCreatedBy());
                 newEntity.setCreatedDate(LocalDateTime.now());
                 newEntity.setTitle(newDTO.getTitle());
@@ -171,6 +177,84 @@ public class NewService implements INewService {
     @Override
     public List<NewEntity> findTop5ByViewsDesc() {
         return newRepository.findTop5ByViewsDesc();
+    }
+
+    @Override
+    public void autoCreateChinhtri() throws IOException {
+        Document document = null;
+        String link = "https://zingnews.vn/chinh-tri.html";
+        String zingnews = "https://zingnews.vn";
+        List<String> listname = new ArrayList<>();
+        List<String> listavatar = new ArrayList<>();
+        List<String> listtomtat = new ArrayList<>();
+        List<String> listcontent = new ArrayList<>();
+
+        document = Jsoup
+                .connect(link)
+                .userAgent("Jsoup client")
+                .timeout(20000).get();
+        Elements title = document.select("p[class=article-title] a");
+
+
+        document = Jsoup
+                .connect(link)
+                .userAgent("Jsoup client")
+                .timeout(20000).get();
+        Elements thumbnail = document.select("p[class=article-thumbnail] a img");
+
+        document = Jsoup
+                .connect(link)
+                .userAgent("Jsoup client")
+                .timeout(20000).get();
+        Elements shortDescription = document.select("p[class=article-summary]");
+
+        for (Element element : title) {
+            listname.add(element.html());
+            String href = element.attr("href");
+            document = Jsoup
+                    .connect(zingnews + href)
+                    .timeout(20000).get();
+            Elements noidung = document.select("div[class=the-article-body] p");
+//            listcontent.add(String.valueOf(noidung));
+            Elements imgs = document.select("td[class=pic] img");
+            for (Element img : imgs) {
+                img.attr("src", String.valueOf(img.attr("data-src")));
+            }
+            listcontent.add(String.valueOf(noidung) + String.valueOf(imgs));
+        }
+
+        for (Element element : thumbnail) {
+            if (String.valueOf(element.attr("src")).startsWith("https")) {
+                listavatar.add(String.valueOf(element.attr("src")));
+            } else {
+                listavatar.add(String.valueOf(element.attr("data-src")));
+            }
+        }
+
+        for (Element element : shortDescription) {
+            listtomtat.add(element.html());
+        }
+
+        for (int i = 0; i < 5; i++) {
+            NewEntity newEntity = new NewEntity();
+            CategoryEntity categoryEntity = categoryRepository.findByCode("chinh-tri");
+            newEntity.setCategoryEntity(categoryEntity);
+            newEntity.setShortDescription(listtomtat.get(i));
+            newEntity.setThumbnail(listavatar.get(i));
+            newEntity.setTitle(listname.get(i));
+            newEntity.setCreatedBy("admin");
+            newEntity.setCreatedDate(LocalDateTime.now());
+            newEntity.setStatus(0);
+            newEntity.setViews(0L);
+            newEntity.setContent(listcontent.get(i));
+            newRepository.save(newEntity);
+//            int sl =dangKyRepository.findAllByCategoryId(1L).size();
+//            if(sl >0){
+//                for(int j=0; j< sl;j++){
+//                    sendMailService.Sendmail(accountRepository.findFirstByUserName(dangKyRepository.findAllByCategoryId(1L).get(j).getUserId()).getEmail());
+//                }
+//            }
+        }
     }
 
     @Override
