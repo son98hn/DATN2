@@ -166,6 +166,8 @@ public class HomeController {
         if (SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated() && !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
             model.addAttribute("USERMODEL", userService.findByUserName(principal.getName()));
         }
+        //       bài viết phổ biến
+        model.addAttribute("popularNews", newService.findTop5ByViewsDesc());
         return "web/nhom-bai-viet";
     }
 

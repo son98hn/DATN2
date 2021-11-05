@@ -118,15 +118,20 @@
                                 <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">Phổ biến nhất
                                 </div>
                             </div>
-                            <div class="row pb-3">
-                                <div class="col-5 align-self-center">
-                                    <img src="" alt="img" class="fh5co_most_trading" />
+                            <c:forEach var="popularNew" items="${popularNews}">
+                                <div class="row pb-3">
+                                    <div class="col-5 align-self-center">
+                                        <img src="${popularNew.thumbnail}" alt="img" class="fh5co_most_trading" />
+                                    </div>
+                                    <div class="col-7 paddding">
+                                        <div class="most_fh5co_treding_font"><a
+                                                href="/bai-viet/${popularNew.id}">${popularNew.title}</a>
+                                        </div>
+                                        <div class="most_fh5co_treding_font_123"><a
+                                                href="/bai-viet/${popularNew.id}">${popularNew.createdDate}</a></div>
+                                    </div>
                                 </div>
-                                <div class="col-7 paddding">
-                                    <div class="most_fh5co_treding_font"> </div>
-                                    <div class="most_fh5co_treding_font_123"></div>
-                                </div>
-                            </div>
+                            </c:forEach>
                         </div>
                     </div>
                     <form action="<c:url value='/nhom-bai-viet/${codeCategory}'/>" id="formSubmit" method="GET">
